@@ -116,7 +116,7 @@ class MysqlInfoTest < Test::Unit::TestCase
     strio = StringIO.new
     ActiveRecord::SchemaDumper.dump(@connection, strio)
     dump_lines = strio.string
-    assert_nil dump_lines.lines.detect {|l| l =~ /\.(float|date|datetime|integer|time|timestamp) .* :limit/ && l !~ /sample_integer/ }
+    assert_nil dump_lines.lines.detect {|l| l =~ /\.(float|date|datetime|integer|time|timestamp) .* :limit/ && l !~ /sample_(boolean|integer)/ }
   ensure
     DbTypeMigration.down
   end
