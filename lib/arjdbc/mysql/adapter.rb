@@ -39,12 +39,10 @@ module ::ArJdbc
       end
 
       def simplified_type(field_type)
-        case field_type
-        when (/tinyint\(1\)|bit/i and not ActiveRecord::ConnectionAdapters::MysqlAdapter.emulate_booleans) then :boolean
-        when /enum/i             then :string
-        else
-          super
-        end
+        return :boolean if field_type =~ /tinyint\(1\)|bit/i and
+          ActiveRecord::ConnectionAdapters::MysqlAdapter.emulate_booleans
+        return :string if field_type =~ /enum/i
+        super
       end
 
       def extract_limit(sql_type)
